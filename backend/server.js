@@ -1,32 +1,42 @@
-import express from "express"
+import express from "express";
 import dotenv from "dotenv";
-import { connectDB } from "./config/db.js";
-import authRoutes from "./routes/auth.routes.js"
-import notesRoutes from "./routes/notes.routes.js"
-import path from "path"
+import path from "path";
 import { fileURLToPath } from "url";
-dotenv.config();
+import connectDB from "./config/db.js"; // Import MongoDB connection
 
-const port = process.env.PORT || 5000;
-const app = express();
-
-app.use(express.json());
-
-app.use("/api/users" , authRoutes)
-app.use("/api/notes" , notesRoutes)
-
+// Setup __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
-  app.get("/*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "../frontend/dist/index.html"))
-  );
-}
+dotenv.config();
 
+// Connect to MongoDB
 connectDB();
 
-app.listen(port , (req , res) => {
-  console.log(`Server Listening at http://localhost:${port}`)
-})
+const app = express();
+
+// Middlewares
+app.use(express.json());
+
+// Example API route
+app.get("/api/test", (req, res) => {
+  res.json({ message: "API is working!" });
+});
+
+// Serve frontend in production
+if (process.env.NODE_ENV === "production") {
+  const frontendPath = path.join(__dirname, "../frontend/dist");
+  app.use(express.static(frontendPath));
+
+  // Catch-all route for React
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(frontendPath, "index.html"));
+  });
+}
+
+// PORT
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
