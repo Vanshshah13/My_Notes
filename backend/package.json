@@ -1,0 +1,22 @@
+{
+  "name": "mern-notes-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type" : "module",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "build" : "npm install && npm install --prefix frontend && npm run build --prefix frontend",
+    "start" : "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.18.2",
+    "nodemon": "^3.1.10"
+  }
+}
