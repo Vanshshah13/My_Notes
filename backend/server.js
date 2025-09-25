@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-import connectDB from "./config/db.js"; // Import MongoDB connection
+import {connectDB} from "./config/db.js"; // Import MongoDB connection
 
 // Setup __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
